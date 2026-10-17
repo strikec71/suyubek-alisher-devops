@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    image: suyubek-alisher-devops
+    container_name: suyubek-alisher-container
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      STUDENT_NAME: ${STUDENT_NAME:?Set STUDENT_NAME}
+      STUDENT_SURNAME: ${STUDENT_SURNAME:?Set STUDENT_SURNAME}
+      STUDENT_GROUP: ${STUDENT_GROUP:?Set STUDENT_GROUP}
+      STUDENT_ID: ${STUDENT_ID:?Set STUDENT_ID}
