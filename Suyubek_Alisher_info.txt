@@ -1,0 +1,5 @@
+Name: Alisher
+Surname: Suyubek
+Group: IT2-2306
+Student ID: 37773
+Course: DevOps
