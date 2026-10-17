@@ -63,7 +63,7 @@ dl{display:grid;grid-template-columns:140px 1fr;gap:14px;margin:32px 0}dt{color:
 <dl><dt>Name</dt><dd>{name}</dd><dt>Surname</dt><dd>{surname}</dd>
 <dt>Group</dt><dd>{group}</dd><dt>Student ID</dt><dd>{student_id}</dd></dl>
 <nav><a href="/student">Student JSON</a><a href="/health">Health check</a></nav>
-<footer>Linux → Git → GitHub → Jenkins → Docker<br>Automated delivery with Jenkins · Course DevOps</footer></main></html>"""
+<footer>Linux → Git → GitHub → Jenkins → Docker<br>Live delivery verified by Suyubek Alisher · Course DevOps</footer></main></html>"""
                 body = page
                 # Replace only the four data placeholders: CSS contains literal braces.
                 for key, value in safe.items():
