@@ -15,8 +15,9 @@ Ubuntu 24.04 ARM64 или AMD64, Git, Python 3.12, Docker Engine с Compose plug
 ## Подготовка после clone
 
 ```bash
-git clone https://github.com/strikec71/suyubek-alisher-devops.git
-cd suyubek-alisher-devops
+mkdir -p ~/devops
+git clone https://github.com/strikec71/suyubek-alisher-devops.git ~/devops/suyubek_alisher
+cd ~/devops/suyubek_alisher
 ./scripts/prepare_demo.sh
 cp .env.example .env
 ```
