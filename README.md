@@ -2,17 +2,17 @@
 
 **Suyubek Alisher · IT2-2306 · Student ID 37773 · DevOps**
 
-Персональный проект лабораторной: Linux → Git → GitHub → Docker → Jenkins.
+Personal laboratory project: Linux → Git → GitHub → Docker → Jenkins.
 
-Репозиторий: https://github.com/strikec71/suyubek-alisher-devops
+Repository: https://github.com/strikec71/suyubek-alisher-devops
 
-## Требования
+## Requirements
 
-Ubuntu 24.04 ARM64 или AMD64, Git, Python 3.12, Docker Engine с Compose plugin.
-Для автоматизации: Jenkins LTS, Java 21, плагины Pipeline и Git.
-Приложение использует только стандартную библиотеку Python.
+Ubuntu 24.04 ARM64 or AMD64, Git, Python 3.12, Docker Engine and the Compose plugin.
+Automation requires Jenkins LTS, Java 21, and the Pipeline and Git plugins.
+The application uses only the Python standard library.
 
-## Подготовка после clone
+## Prepare a fresh clone
 
 ```bash
 mkdir -p ~/devops
@@ -22,10 +22,10 @@ cd ~/devops/suyubek_alisher
 cp .env.example .env
 ```
 
-Игнорируемые logs/application.log и backup/ создаются локально.
-Правила .gitignore не отменяют отслеживание ранее добавленных файлов.
+The ignored logs/application.log and backup/ directory are generated locally.
+.gitignore rules do not stop tracking files that were committed earlier.
 
-## Проверки
+## Checks
 
 ```bash
 ./scripts/Suyubek_Alisher_system.sh
@@ -50,7 +50,7 @@ docker rm suyubek-alisher-container
 
 ## Compose
 
-После остановки и удаления ручного контейнера:
+Stop and remove the manually started container first:
 
 ```bash
 cp .env.example .env
@@ -60,43 +60,51 @@ docker compose logs --tail=20
 docker compose down
 ```
 
-Compose, ручной запуск и Jenkins используют одно имя контейнера и порт 8000;
-запускать их последовательно. EXPOSE документирует порт, а -p публикует его.
+Compose, manual execution and Jenkins use the same container name and port 8000;
+run them one at a time. EXPOSE documents the port; -p publishes it.
 
-## Приложение и переменные
+## Application and environment variables
 
-/ — персональная страница; /student — JSON; /health — проверка готовности.
-STUDENT_NAME, STUDENT_SURNAME, STUDENT_GROUP, STUDENT_ID читаются при запуске.
-По умолчанию используются данные Suyubek Alisher. APP_PORT переопределяет порт
-из config/app.conf; APP_CONFIG может указать другой конфигурационный файл.
-Внутри контейнера сервер слушает 0.0.0.0. Данные выводятся также в docker logs.
+/ is the student page; /student returns JSON; /health checks readiness.
+STUDENT_NAME, STUDENT_SURNAME, STUDENT_GROUP and STUDENT_ID are read at startup.
+The defaults identify Suyubek Alisher. APP_PORT overrides the port in
+config/app.conf; APP_CONFIG can select a different configuration file.
+Inside the container, the server listens on 0.0.0.0. Startup information and
+request logs are available through docker logs.
 
 ## Jenkins
 
-Создать Pipeline Job **Suyubek_Alisher_DevOps**, выбрать Pipeline script from SCM,
-Git URL этого репозитория, ветку */main, Script Path Jenkinsfile.
-На Linux узле нужны Python, Git, Docker CLI и доступ пользователя jenkins к daemon.
+Create a Pipeline job named **Suyubek_Alisher_DevOps**. Select Pipeline script from
+SCM, this repository's Git URL, branch */main and Script Path Jenkinsfile.
+The Linux node requires Python, Git, Docker CLI and Docker daemon access for jenkins.
 
 Checkout → Build → Test → Docker Build → Docker Run.
-Build проверяет компиляцию Python. Test запускает реальные unit/HTTP тесты.
-Docker Run ожидает /health, сверяет все поля /student и оставляет контейнер запущенным.
-Ошибки стадий не скрываются. Повторные сборки выполняются последовательно.
-Commit SHA выводится в журнал и сохраняется в OCI label образа.
+Build checks Python compilation. Test executes real unit and HTTP tests.
+Docker Run waits for /health, verifies every /student field and leaves the container
+running. Stage errors are not suppressed. Repeated builds execute sequentially.
+The commit SHA is printed in the console and stored in an OCI image label.
 
-## Учебные файлы
+## Demonstration files
 
-private.txt содержит только демонстрационный текст. Права 600 и 644 показываются
-в Linux после prepare_demo.sh; Git сохраняет executable bit, а не полный chmod.
-В config/app.conf хранится используемый приложением порт. Пароли, токены, .env,
-резервные копии и журналы не должны попадать в Git или Docker image.
+private.txt contains harmless demonstration text only. Permissions 600 and 644 are
+applied in Linux by prepare_demo.sh; Git preserves the executable bit, not every
+chmod permission. config/app.conf contains the application port actually used by
+the server. Passwords, tokens, .env, backups and logs must stay outside Git and images.
 
-## Проверка готовности
+## Readiness verification
 
 ```bash
 curl -fsS http://127.0.0.1:8000/health
 python3 -m scripts.check_running
 ```
 
-Первая команда должна вернуть OK. Вторая ожидает готовность и сравнивает
-все четыре поля /student с ожидаемыми переменными окружения.
-Если поле не совпало, проверка завершается ошибкой.
+The first command returns OK. The second waits for readiness and compares all four
+/student fields against the expected environment variables. A mismatch returns
+an error status.
+
+## Demonstration and recovery
+
+- docs/COMMANDS.md: commands and explanations for the individual verification.
+- docs/VIDEO_SCRIPT.md: a continuous demonstration with the student's own voice.
+- infra/README.md: Ubuntu installation and Jenkins recovery.
+- infra/plugins.lock.txt: the plugin versions verified on the current environment.
